@@ -173,7 +173,7 @@
 <body>
 
 	<header>
-		<h1>U.S. Power Plants</h1>
+		<h1>California Wildfires, 2009-2019</h1>
 	</header>
 	<section>
 		<div class="row">
@@ -222,8 +222,8 @@
   <script>
   		// map options
 		var options = {
-				center: [38, -95],
-				zoom: 4
+				center: [37.16611, -119.44944],
+				zoom: 5
 			}
 
 			// create a Leaflet map in our division container with id of 'map'
@@ -239,8 +239,14 @@
 				subdomains: 'abcd',
 				maxZoom: 19
       };
-      			// request some basemap tiles and add to the map
+      // request some basemap tiles and add to the map
       var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
+
+      var style = {
+				weight: 1,
+				stroke: 1,
+        fillOpacity: .8
+      }
       
       </script>
       	</body>
