@@ -242,36 +242,48 @@
       // request some basemap tiles and add to the map
       var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
-      var style = {
+      var styles = {
 				weight: 1,
 				stroke: 1,
         fillOpacity: .8
       }
 
-      L.geoJson(fires, {
+      var lightning = L.geoJson(fires, {
         pointToLayer: function(feature, latlng) {
-          return L.circleMarker(latlng, {
-            color: 'red',
-            weight: 1,
-            fillColor: 'orange',
-            fillOpacity: .7,
-            radius: getRadius(feature.properties.Acres)
-          });
+          return L.circleMarker(latlng, styles);
         },
-        onEachFeature: function(feature, layer) {
-          layer.on('mouseover', function() {
-            layer.setStyle({
-              fillColor: 'white'
+        filter: function(feature) {
+          if (feature.properties.STATISTICA == "Lightning") {
+                return feature;
+          }
+        },
+        style: function(feature) {
+          return {
+            color: 'white',
+            fillColor: '#D98A29',
+            radius: getRadius(feature.properties.Acres)
+          }
+        },
+      onEachFeature: function(feature, layer) {
+       layer.on('mouseover', function() {
+          layer.setStyle({
+             fillColor: 'white'
             });
           });
           layer.on('mouseout', function(){
             layer.setStyle({
-              fillColor: 'orange'
+              fillColor: '#D98A29'
             });
           });
-          layer.bindTooltip(layer.feature.properties.FIRE_NAME);
-        }
-      }).addTo(map);
+          
+          popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4><br>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+          
+            layer.bindTooltip(popup)
+          }
+         
+         //layer.bindTooltip(layer.feature.properties.FIRE_NAME);
+}).addTo(map);       
+
       function getRadius(area) {
         var radius = Math.sqrt(area/Math.PI);
         return radius * .05;
