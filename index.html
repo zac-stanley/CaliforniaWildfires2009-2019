@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset=utf-8 />
-	<title>Lab 07 — US Power Plants</title>
+	<title>Wildfires in California</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	<link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
 
@@ -12,16 +12,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Michroma|Patua+One|Roboto&display=swap" rel="stylesheet"> 
 
-	<style>
-		/* 
-			UKy Colors: 
-            #c7c9c8 light gray 
-            #63666a dark gray
-            #15397f dark blue
-            #009bda light blue
-            #0033a0 official blue
-				*/
-				
+	<style>		
 		
 				body {
 					margin: 0;
@@ -82,12 +73,70 @@
 					font-size: 1em;
 					color: #001323;
 				}
+
+				.leaflet-control-layers-expanded { 
+					background:  rgba(100, 100, 100, 0.9); 
+					font-family: Lato, sans-serif;
+				}
 				
 				.leaflet-bar a {
 					/* Override the default style for Leaflet's zoom  */
 					background: rgba(100, 100, 100, 0.9);
 					color: rgba(244, 244, 244, 0.8);
 				}
+
+				#info-button {
+					font-family: Lato, sans-serif;
+					padding: 8px 5px;
+					font-size: 0.9em;
+					font-weight: bolder;
+					/* Style matches Leaflet controls */
+					border: 2px solid #333333;
+					background: rgba(100, 100, 100, 0.9);
+					color: rgba(244, 244, 244, 0.8);
+					border-radius: 5px;
+					/* Position is fixed next to the zoom bar */
+					position: fixed;
+					top: 12px;
+					right: 150px;
+					/* Draw it on top of all elements */
+					z-index: 9999;
+					/* Cursor change on hover -- doesn't work on touch screensn */
+					cursor: pointer;
+			}
+			
+			#footer {
+					width: 100%;
+					background: rgba(244, 244, 244, 0.8);
+					color: rgba(20, 20, 20, 0.8);
+					box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+					height: 0px;
+					padding: 0px;
+					/* display below the button to allow clicking if overlay covers screen */
+					z-index: 9000;
+					position: absolute;
+					/* 
+					Hide the footer be default. This should not contain too much information. Like to a new page for extended content.
+					*/
+					bottom: -10px;
+					/* If too much is included, enable scroll */
+					overflow: scroll;
+			}
+			
+			#footer div {
+					padding: 10px;
+			}
+			
+			#footer h1 {
+					font-size: 1em;
+					margin: 0 0 5px 0;
+			}
+			
+			.footer-img {
+					float: right;
+					height: 10vh;
+					margin: 10px;
+			}
 
 		/* When browser is 900px wide or less */
 		@media screen and (max-width: 900px) {
@@ -97,10 +146,20 @@
 				width: 100%;
 			}
 		}
+
 	</style>
 </head>
 
 <body>
+	<div id='map'></div>
+<button id="info-button" onclick="myInfo()">Wildfires in California - click to learn more</button>
+<div id='footer'>
+    <div><img src="https://uky-gis.github.io/graphics/logo-color-400px.png" class="footer-img">
+        <h1>This bivariate map represents wildfire in California from 2009-2019. The symbol size represents size in acres >= 100 and the colors represent the five most common cause of fire during this time period. The data came from the <a href="https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=wildfire">U.S. Forest Service</a>;
+					FIRESTAT Fire Occurrence - Yearly Update. Map created by <a href="https://github.com/zac-stanley">Zac Stanley</a>, Spring  2020.
+    </div>
+</div>
+</body>
 
 	<header>
 	<!--	<h1>California Wildfires, 2009-2019</h1> -->
@@ -108,32 +167,8 @@
 	<section>
 		<div class="row">
 			<div id="map"></div>
-
-
-			<!--	<p><b>Social links</b></p>
-				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/zac-stanley">Zac Stanley</a></li>
-					<li>Follow me on Twitter: <a href="https://twitter.com/zac_stanley">CartoStan</a></li>
-					<li>Connect on LinkedIn: <a href="https://www.linkedin.com/in/zac-stanley-gisp-a6208022/">Zac Stanley, GISP</a>.
-					</li>
-				</ul> -->
-
-
-
 		</div>
 	</section>
-<!--<footer>
-		<hr>
-
-		<a href="https://newmapsplus.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
-		</a>
-
-		<a href="https://uky-gis.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
-		</a>
-
-	</footer>-->
 
 	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 	<script src="geoJSONs/CAFire_2009_2019.js"></script>
@@ -148,19 +183,6 @@
 
 			// create a Leaflet map in our division container with id of 'map'
 			var map = L.map('map', options);
-
-			// Leaflet providers base map URL
-		//	var basemap_source =
-    //  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
-
-			// Leaflet providers attributes
-		//	var basemap_options = {
-		//		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-		//		subdomains: 'abcd',
-    //    maxZoom: 19
-    //  };
-      // request some basemap tiles and add to the map
-    //  var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
       var styles = {
 				weight: 1,
@@ -186,26 +208,18 @@
 					if (feature.properties.NAME == "California"){
 						return feature;
 					}
-				}
-								
-
-
+				}						
 				})
 				var zoomExCa = stateLayer.getBounds()
 
 				map.fitBounds(zoomExCa, {
-					maxzoom: 7
+					maxzoom: 8
 				})
 				stateLayer.addTo(map)
 	
-			//	drawMap(stateLayer);
-								
+			//	drawMap(stateLayer)
 
-
-
-			
-		
-			
+													
 
       var lightning = L.geoJson(fires, {
         pointToLayer: function(feature, latlng) {
@@ -275,7 +289,7 @@ onEachFeature: function(feature, layer) {
     
       layer.bindTooltip(popup)
     }  
-}).addTo(map); 
+}); 
 
 var equipment = L.geoJson(fires, {
   pointToLayer: function(feature, latlng) {
@@ -391,8 +405,25 @@ onEachFeature: function(feature, layer) {
 				"<b style= 'color:#404259'>Arson</b>": arson,
 				"<b style= 'color:##D94D1A'>Campfire</b>": camp
 			}
-			L.control.layers(null, sourceLayers, {collapsed: false}).addTo(map);
-      
+			L.control.layers(null, sourceLayers,{collapsed: false}).addTo(map);
+			
+			var clicked = false // start with false condition
+
+	function myInfo() {
+
+		// create button that changes color on click
+		// create a footer overlay that displays 33% of the current viewport height
+		var x = document.getElementById('footer');
+		var y = document.getElementById('info-button');
+		if (clicked) {
+			y.style.background = 'rgba(100, 100, 100, 0.9)'; // gray button
+			x.style.height = '0px'; // no footer height 
+		} else {
+			y.style.background = 'rgba(146, 239, 146, 0.8)' // green button
+			x.style.height = '33vh';  // footer 33% of viewport height
+		}
+		clicked = !clicked
+}
       </script>
       	</body>
 	
