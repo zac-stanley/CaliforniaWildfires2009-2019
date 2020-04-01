@@ -20,144 +20,63 @@
             #15397f dark blue
             #009bda light blue
             #0033a0 official blue
-        */
-		body {
-			margin: 0;
-			padding: 0;
-			background: #ffffff;
-			font-family: 'Lato', sans-serif;
-			font-weight: 300;
-			color: #3d3d3d;
-			font-size: 100%;
-			/* 16px is default browser size */
-
-		}
-
-		header,
-		section,
-		footer {
-			width: 80%;
-			margin: 10px auto;
-		}
-
-		h1 {
-			font-family: 'Michroma', sans-serif;				
-			font-weight: 900;
-			font-size: 2.8em;
-			color: black;
-			font-style: bold;
-			/* The em unit. 3x the current size */
-			letter-spacing: .02em;
-			margin: 5px 0;
-			/* text-transform: uppercase; */
-		}
-
-		h2 {
-			font-family: 'Roboto', sans-serif;
-			color: #000000;
-			font-size: 2.2em;
-			letter-spacing: .06em;
-			font-style: italic;
-			font-weight: bolder;
-			margin: 5px 0;
-		}
-
-		h3 {
-			font-weight: 300i;
-			color: #000000;
-			font-size: 1.5em;
-			margin-bottom: 5px;
-		}
-
-		h4 {
-			font-family: 'Roboto', sans-serif;
-			color: #000000;
-			font-size: 1.2em;
-			letter-spacing: .06em;
-			font-style: italic;
-			font-weight: bolder;
-			margin: 5px 0;
-		}
-
-		p {
-			color: #000000;
-			font-family: 'Roboto', sans-serif;
-			font-weight: lighter;
-			font-size: 1em;
-			line-height: 1.8em;
-			margin-bottom: 5px;
-		}
-
-		a {
-			color: #004A8B;
-			font-weight: 400;
-			text-decoration: none;
-		}
-
-		a:hover {
-			text-decoration: underline;
-		}
-
-		ul {
-			padding: 0px 20px 4px 20px;
-			font-size: 1.1em;
-			line-height: 1.2em;
-			color: black;
-		}
-
-		li {
-			font-family: 'Roboto', sans-serif;
-			font-size: em;
-			font-weight: lighter;
-			color: #000000;
-			margin: 10px 0
-		}
-
-		hr {
-			margin: 20px 0;
-			border: 0;
-			height: 1px;
-			background: #63666a;
-
-		}
-
-		.linkbox {
-			margin: 3px 0 20px 0;
-			display: block;
-			font-size: 0.9em;
-			font-weight: 300;
-			line-height: 1.3em;
-		}
-
-		#map {
-			width: 100%;
-			height: 450px;
-			margin: 20px auto;
-
-		}
-
-		.max-image-width {
-			width: 100%;
-		}
-
-		/* Use float property to make two-column layout */
-		.first-column {
-			float: left;
-			width: 49%;
-			padding-right: 2%;
-		}
-
-		.column {
-			float: left;
-			width: 49%;
-		}
-
-		/* Clear floats after the columns */
-		.row::after {
-			content: "";
-			display: block;
-			clear: both;
-		}
+				*/
+				
+		
+				body {
+					margin: 0;
+					padding: 0;
+					background: #222;
+					/* dark */
+					font-family: Lato, sans-serif;
+					font-size: 100%;
+					color: #ddd;
+					/* light */
+				}
+		
+				header {
+					width: 80%;
+					margin: 10px auto 10px auto;
+				}
+		
+				h1 {
+					display: inline-block;
+					margin-right: 20px;
+					color: #001323;
+				}
+		
+				h2 {
+					display: inline-block;
+					color: #001323;
+				}
+		
+				#map {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					width: 100%;
+					background: rgba(63, 63, 63, 0.9);
+					/* with transparency */
+				}
+		
+				a {
+					color: #004A8B;
+				}
+		
+				a:hover {
+					color: rgb(67, 69, 71);
+					text-decoration: none;
+				}
+		
+				footer {
+					padding: 6px 10%;
+					width: 80%;
+				}
+		
+				p {
+					font-size: 1em;
+					color: #001323;
+				}
 
 		/* When browser is 900px wide or less */
 		@media screen and (max-width: 900px) {
@@ -179,32 +98,20 @@
 		<div class="row">
 			<div id="map"></div>
 
-			<div class="first-column">
-				<h2>Nuclear, Coal and Petroleum Power</h2>
-				<p>
-					"In 2019, about 4,118 billion kilowatthours (kWh) (or about 4.12 trillion kWh) of electricity were generated at utility-scale electricity generation facilities in the United States. About 63% of this electricity generation was from fossil fuels—coal, natural gas, petroleum, and other gases. About 20% was from nuclear energy"
-					(<a href="https://www.eia.gov/tools/faqs/faq.php?id=427&t=3">U.S. Energy Information Adminstration</a>) <br><br>
-				</p>
 
-				<p><b>Social links</b></p>
+			<!--	<p><b>Social links</b></p>
 				<ul>
 					<li>See my projects on GitHub: <a href="https://github.com/zac-stanley">Zac Stanley</a></li>
 					<li>Follow me on Twitter: <a href="https://twitter.com/zac_stanley">CartoStan</a></li>
 					<li>Connect on LinkedIn: <a href="https://www.linkedin.com/in/zac-stanley-gisp-a6208022/">Zac Stanley, GISP</a>.
 					</li>
-				</ul>
+				</ul> -->
 
 
-			</div>
-			<div class="column">
-				<img class="max-image-width" src="https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404784001/d004b7af-4749-4955-bedc-59a336bb8178/882728e8-99ef-44e4-b515-5f4226278ebb/1280x720/match/image.jpg" title="Diablo Canyon Nuclear Plant, Avila Beach, California. Photo Credit - PG&E">
-				<div class="linkbox">
-					Diablo Canyon Nuclear Plant, Avila Beach, California. Photo Credit - PG&E
-				</div>
-			</div>
+
 		</div>
 	</section>
-	<footer>
+<!--<footer>
 		<hr>
 
 		<a href="https://newmapsplus.github.io">
@@ -215,7 +122,7 @@
 			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
 		</a>
 
-	</footer>
+	</footer>-->
 
 	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 	<script src="geoJSONs/CAFire_2009_2019.js"></script>
@@ -225,7 +132,7 @@
 		var options = {
 				center: [37.38611, -119.44944],
 				zoomSnap: .11,
-				zoom: 5.66
+				zoom: 6.9
 			}
 
 			// create a Leaflet map in our division container with id of 'map'
@@ -249,7 +156,7 @@
 				stroke: 1,
         fillOpacity: 1
 			}
-			
+
 			var stateLayer = L.geoJson(states, {
 				style: function (feature) {
           return {
@@ -444,8 +351,17 @@ onEachFeature: function(feature, layer) {
 
       function getRadius(area) {
         var radius = Math.sqrt(area/Math.PI);
-        return radius * .05;
-      }
+        return radius * .19;
+			}
+
+			var sourceLayers = {
+				"<b style= 'color:#D98A29'>Lightning</b>": lightning,
+				"<b style= 'color:#404259'>Miscellaneous</b>": misc,
+				"<b style= 'color:#9392A6'>Equipment</b>": equipment,
+				"<b style= 'color:#404259'>Arson</b>": arson,
+				"<b style= 'color:##D94D1A'>Campfire</b>": camp
+			}
+			L.control.layers(null, sourceLayers, {collapsed: false}).addTo(map);
       
       </script>
       	</body>
