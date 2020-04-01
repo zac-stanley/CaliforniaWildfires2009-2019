@@ -35,8 +35,13 @@
 				}
 		
 				header {
+					top: 0px;
 					width: 80%;
 					margin: 10px auto 10px auto;
+				}
+
+				select {
+					width: 260px;
 				}
 		
 				h1 {
@@ -77,6 +82,12 @@
 					font-size: 1em;
 					color: #001323;
 				}
+				
+				.leaflet-bar a {
+					/* Override the default style for Leaflet's zoom  */
+					background: rgba(100, 100, 100, 0.9);
+					color: rgba(244, 244, 244, 0.8);
+				}
 
 		/* When browser is 900px wide or less */
 		@media screen and (max-width: 900px) {
@@ -92,7 +103,7 @@
 <body>
 
 	<header>
-		<h1>California Wildfires, 2009-2019</h1>
+	<!--	<h1>California Wildfires, 2009-2019</h1> -->
 	</header>
 	<section>
 		<div class="row">
@@ -132,7 +143,7 @@
 		var options = {
 				center: [37.38611, -119.44944],
 				zoomSnap: .11,
-				zoom: 6.9
+				zoom: 6.7
 			}
 
 			// create a Leaflet map in our division container with id of 'map'
@@ -176,7 +187,17 @@
 						return feature;
 					}
 				}
-			}).addTo(map);
+			})
+			var zoomExCa = stateLayer.getBounds()
+
+			map.fitBounds(zoomExCa, {
+				maxzoom: 8
+			})
+			stateLayer.addTo(map)
+
+			drawMap(stateLayer);
+		
+			
 
       var lightning = L.geoJson(fires, {
         pointToLayer: function(feature, latlng) {
@@ -352,7 +373,7 @@ onEachFeature: function(feature, layer) {
 
       function getRadius(area) {
         var radius = Math.sqrt(area/Math.PI);
-        return radius * .19;
+        return radius * .17;
 			}
 
 			var sourceLayers = {
