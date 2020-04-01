@@ -231,13 +231,13 @@
 
 			// Leaflet providers base map URL
 			var basemap_source =
-				'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/dark_all/{z}/{x}/{y}.png'
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
 
 			// Leaflet providers attributes
 			var basemap_options = {
-				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 				subdomains: 'abcd',
-				maxZoom: 19
+        maxZoom: 19
       };
       // request some basemap tiles and add to the map
       var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
@@ -245,7 +245,7 @@
       var styles = {
 				weight: 1,
 				stroke: 1,
-        fillOpacity: .8
+        fillOpacity: 1
       }
 
       var lightning = L.geoJson(fires, {
@@ -259,7 +259,7 @@
         },
         style: function(feature) {
           return {
-            color: 'white',
+            color: '#F0AA22',
             fillColor: '#D98A29',
             radius: getRadius(feature.properties.Acres)
           }
@@ -281,8 +281,144 @@
             layer.bindTooltip(popup)
           }
          
-         //layer.bindTooltip(layer.feature.properties.FIRE_NAME);
-}).addTo(map);       
+
+}).addTo(map); 
+
+var misc = L.geoJson(fires, {
+  pointToLayer: function(feature, latlng) {
+    return L.circleMarker(latlng, styles);
+  },
+  filter: function(feature) {
+    if (feature.properties.STATISTICA == "Miscellaneous") {
+          return feature;
+    }
+  },
+  style: function(feature) {
+    return {
+      color: '#F0AA22',
+      fillColor: '#404259',
+      radius: getRadius(feature.properties.Acres)
+    }
+  },
+onEachFeature: function(feature, layer) {
+ layer.on('mouseover', function() {
+    layer.setStyle({
+       fillColor: 'black'
+      });
+    });
+    layer.on('mouseout', function(){
+      layer.setStyle({
+        fillColor: '#404259'
+      });
+    });
+
+    popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4><br>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+    
+      layer.bindTooltip(popup)
+    }  
+}).addTo(map); 
+
+var equipment = L.geoJson(fires, {
+  pointToLayer: function(feature, latlng) {
+    return L.circleMarker(latlng, styles);
+  },
+  filter: function(feature) {
+    if (feature.properties.STATISTICA == "Equipment Use") {
+          return feature;
+    }
+  },
+  style: function(feature) {
+    return {
+      color: '#F0AA22',
+      fillColor: '#9392A6',
+      radius: getRadius(feature.properties.Acres)
+    }
+  },
+onEachFeature: function(feature, layer) {
+ layer.on('mouseover', function() {
+    layer.setStyle({
+       fillColor: 'black'
+      });
+    });
+    layer.on('mouseout', function(){
+      layer.setStyle({
+        fillColor: '#9392A6'
+      });
+    });
+        
+    popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4><br>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+    
+      layer.bindTooltip(popup)
+    }  
+}).addTo(map);   
+
+var arson = L.geoJson(fires, {
+  pointToLayer: function(feature, latlng) {
+    return L.circleMarker(latlng, styles);
+  },
+  filter: function(feature) {
+    if (feature.properties.STATISTICA == "Arson") {
+          return feature;
+    }
+  },
+  style: function(feature) {
+    return {
+      color: '#F0AA22',
+      fillColor: '#404259',
+      radius: getRadius(feature.properties.Acres)
+    }
+  },
+onEachFeature: function(feature, layer) {
+ layer.on('mouseover', function() {
+    layer.setStyle({
+       fillColor: 'black'
+      });
+    });
+    layer.on('mouseout', function(){
+      layer.setStyle({
+        fillColor: '#404259'
+      });
+    });
+        
+    popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4><br>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+    
+      layer.bindTooltip(popup)
+    }  
+}).addTo(map); 
+
+var camp = L.geoJson(fires, {
+  pointToLayer: function(feature, latlng) {
+    return L.circleMarker(latlng, styles);
+  },
+  filter: function(feature) {
+    if (feature.properties.STATISTICA == "Campfire") {
+          return feature;
+    }
+  },
+  style: function(feature) {
+    return {
+      color: '#F0AA22',
+      fillColor: '#D94D1A',
+      radius: getRadius(feature.properties.Acres)
+    }
+  },
+onEachFeature: function(feature, layer) {
+ layer.on('mouseover', function() {
+    layer.setStyle({
+       fillColor: 'black'
+      });
+    });
+    layer.on('mouseout', function(){
+      layer.setStyle({
+        fillColor: '#D94D1A'
+      });
+    });
+        
+    popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4><br>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+    
+      layer.bindTooltip(popup)
+    }  
+}).addTo(map); 
 
       function getRadius(area) {
         var radius = Math.sqrt(area/Math.PI);
