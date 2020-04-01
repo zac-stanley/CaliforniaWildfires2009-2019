@@ -180,22 +180,30 @@
 						fillColor: '#CCCCCC',
             // This property allows us control interactivty of layer
             interactive: false
-          };
-				},
+					};
+									},
 				filter: function(feature){
 					if (feature.properties.NAME == "California"){
 						return feature;
 					}
 				}
-			})
-			var zoomExCa = stateLayer.getBounds()
+								
 
-			map.fitBounds(zoomExCa, {
-				maxzoom: 8
-			})
-			stateLayer.addTo(map)
 
-			drawMap(stateLayer);
+				})
+				var zoomExCa = stateLayer.getBounds()
+
+				map.fitBounds(zoomExCa, {
+					maxzoom: 7
+				})
+				stateLayer.addTo(map)
+	
+			//	drawMap(stateLayer);
+								
+
+
+
+			
 		
 			
 
