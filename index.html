@@ -8,7 +8,7 @@
 	<link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Michroma|Patua+One|Roboto&display=swap" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Michroma|Patua+One|Roboto&display=swap" rel="stylesheet"> 
@@ -99,7 +99,7 @@
 				#info-button {
 					font-family: 'Roboto', sans-serif;
 					padding: 8px 5px;
-					font-size: 0.9em;
+					font-size: 1.1em;
 					font-weight: bolder;
 					/* Style matches Leaflet controls */
 					border: 2px solid #333333;
@@ -143,6 +143,12 @@
 					font-size: 1em;
 					margin: 0 0 5px 0;
 			}
+
+			#footer p {
+					font-size: 1.2em;
+					margin: 5px 0 5px 0;
+					line-height: 1.2em;
+			}
 			
 			.footer-img {
 					float: right;
@@ -150,14 +156,12 @@
 					margin: 10px;
 			}
 
-		/* When browser is 900px wide or less */
-		@media screen and (max-width: 900px) {
-
-			.first-column,
-			.second-column {
-				width: 100%;
-			}
-		}
+			@media only screen and (max-width: 900px) {
+				#info-button {
+					width: 200px;
+				}
+            
+            }
 
 	</style>
 </head>
@@ -166,9 +170,10 @@
 	<div id='map'></div>
 <button id="info-button" onclick="myInfo()">Wildfires in California - click to learn more</button>
 <div id='footer'>
-    <div><img src="https://uky-gis.github.io/graphics/logo-color-400px.png" class="footer-img">
-        <h1>This bivariate map represents wildfires in California from 2009-2019. The symbol size represents size in acres >= 100 and the colors represent the five most common cause of fire during this time period. The data came from the <a href="https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=wildfire">U.S. Forest Service</a>;
-					FIRESTAT Fire Occurrence - Yearly Update. Map created by <a href="https://github.com/zac-stanley">Zac Stanley</a>, Spring  2020.
+    <div>
+	<p><img src="https://uky-gis.github.io/graphics/logo-color-400px.png" class="footer-img">
+    This bivariate map represents wildfires in California from 2009-2019. The symbol size represents size in acres >= 100 and the colors represent the five most common cause of fire during this time period. The data came from the <a href="https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=wildfire">U.S. Forest Service</a>;
+					FIRESTAT Fire Occurrence - Yearly Update. Map created by <a href="https://github.com/zac-stanley">Zac Stanley</a>, Spring  2020.</p>
     </div>
 </div>
 </body>
@@ -182,7 +187,7 @@
 		</div>
 	</section>
 
-	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 	<script src="geoJSONs/CAFire_2009_2019.js"></script>
 	<script src="geoJSONs/States.js"></script>
 	<script>
@@ -213,7 +218,7 @@
 					fillOpacity: 0.1,
 					fillColor: '#CCCCCC',
 					// This property allows us control interactivty of layer
-					interactive: false
+					interactive: true
 				};
 			},
 			filter: function (feature) {
@@ -260,7 +265,9 @@
 				});
 
 				// create template literal for tooltip  
-				popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				// popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				props = feature.properties
+				popup = makePopup(props.FIRE_NAME, props.STATISTICA, props.Acres, props.DISCOVER_Y)
 
 				layer.bindTooltip(popup)
 			}
@@ -295,7 +302,8 @@
 					});
 				});
 				// create template literal for tooltip  
-				popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				props = feature.properties
+				popup = makePopup(props.FIRE_NAME, props.STATISTICA, props.Acres, props.DISCOVER_Y)
 
 				layer.bindTooltip(popup)
 			}
@@ -330,7 +338,8 @@
 					});
 				});
 				// create template literal for tooltip    
-				popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				props = feature.properties
+				popup = makePopup(props.FIRE_NAME, props.STATISTICA, props.Acres, props.DISCOVER_Y)
 
 				layer.bindTooltip(popup)
 			}
@@ -365,7 +374,8 @@
 					});
 				});
 				// create template literal for tooltip   
-				popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				props = feature.properties
+				popup = makePopup(props.FIRE_NAME, props.STATISTICA, props.Acres, props.DISCOVER_Y)
 
 				layer.bindTooltip(popup)
 			}
@@ -400,7 +410,8 @@
 					});
 				});
 				// create template literal for tooltip      
-				popup = `<h4>${feature.properties.FIRE_NAME} Fire</h4>Cause: ${feature.properties.STATISTICA}<br> Size: ${feature.properties.Acres.toLocaleString()}<br> Year: ${feature.properties.DISCOVER_Y}`
+				props = feature.properties
+				popup = makePopup(props.FIRE_NAME, props.STATISTICA, props.Acres, props.DISCOVER_Y)
 
 				layer.bindTooltip(popup)
 			}
@@ -420,6 +431,15 @@
 		}
 		// create control layer
 		L.control.layers(null, sourceLayers, { collapsed: false }).addTo(map);
+
+
+		function makePopup(name, cause, size, year) {
+				// create template literal for tooltip  
+				return `<h4>${name} Fire</h4>
+				<b>Cause:</b> ${cause}<br> 
+				<b>Size:</b> ${size.toLocaleString()}<br> 
+				<b>Year:</b> ${year}`
+		}
 
 		var clicked = false // start with false condition
 
